@@ -1,10 +1,10 @@
-from setuptools import Extension, setup
+from setuptools import Extension, setup, find_packages
 
 extension = Extension("upath", ["upath/upath.c", ], extra_compile_args=["-O3"])
 
 setup(
     name="upath",
-    version="1.2",
+    version="1.0",
     author='Georgian-Andrei Oprișor',
     author_email='gaoprisor@gmail.com',
     description="""
@@ -12,5 +12,12 @@ setup(
     Can reduce the time spent retrieving items from nested structures resulted after de-serializing JSON content 
     or other nested structures.
     """,
-    ext_modules=[extension]
+    classifiers=[
+        "Programming Language :: Python :: 3",
+    ],
+    url="https://github.com/aoprisor/upath",
+    license="MIT",
+    ext_modules=[extension],
+    packages=find_packages(),
+    test_suite="tests",
 )

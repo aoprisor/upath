@@ -1,6 +1,4 @@
 #include <Python.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 static char module_docstring[] = "C extension to fetch an item from a nested structure made out of "
     "dictionaries and/or lists. "
@@ -31,7 +29,7 @@ static PyObject *get_from_path(PyObject *self, PyObject *args)
 
     if (PyArg_ParseTuple(args, "OO|OO", &nested_input, &path, &separator, &default_value)) {
         if (!PyDict_Check(nested_input) && !PyList_Check(nested_input)) {
-                PyErr_SetString(PyExc_TypeError, "parameter must be a dictionary or a list");
+                PyErr_SetString(PyExc_TypeError, "nested_input must be a dictionary or a list");
                 return NULL;
         }
 
@@ -44,6 +42,9 @@ static PyObject *get_from_path(PyObject *self, PyObject *args)
                 PyErr_SetString(PyExc_TypeError, "separator must be an unicode string");
                 return NULL;
         }
+    } else {
+        PyErr_SetString(PyExc_TypeError, "invalid arguments");
+        return NULL;
     }
 
     PyObject *keys = PyUnicode_Split(path, separator, -1);
