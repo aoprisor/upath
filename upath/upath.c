@@ -13,9 +13,9 @@ static char getp_docstring[] = "get an item from a nested structure mad out of d
     ":param separator (Optional) - separator used for building the path, must be a unicode character: (Default: '.')"
     ":param default_value (Optional) - default value in case the path does not exist: (Default: None)"
     ":return PyObject"
-    ":raises DictPathError - returns exception when invalid values have been provided in the inputs";
+    ":raises PathError - returns exception when invalid values have been provided in the inputs";
 
-static PyObject *DictPathError;
+static PyObject *PathError;
 
 static PyObject *get_from_path(PyObject *self, PyObject *args)
 {
@@ -88,12 +88,12 @@ static struct PyModuleDef upath_module = {
 
 PyMODINIT_FUNC PyInit_upath(void)
 {
-    PyObject *m;
+    PyObject *module;
 
-    m = PyModule_Create(&upath_module);
+    module = PyModule_Create(&upath_module);
 
-    DictPathError = PyErr_NewException("upath.error", NULL, NULL);
-    Py_INCREF(DictPathError);
-    PyModule_AddObject(m, "error", DictPathError);
+    PathError = PyErr_NewException("upath.error", NULL, NULL);
+    Py_INCREF(PathError);
+    PyModule_AddObject(module, "error", PathError);
     return m;
 }
