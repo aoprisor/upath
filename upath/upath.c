@@ -66,9 +66,14 @@ static PyObject *get_from_path(PyObject *self, PyObject *args)
                     && Py_UNICODE_TODECIMAL(*PyUnicode_AS_UNICODE(key)) < PyList_GET_SIZE(result)) {
             long path_index = Py_UNICODE_TODECIMAL(*PyUnicode_AS_UNICODE(key));
             result = PyList_GetItem(result, PyLong_AsSize_t(PyLong_FromLong(path_index)));
-        } else return default_value;
-    }
+        }
+         else {
+             if(default_value!=Py_None) Py_INCREF(Py_None);
+             return default_value;
+        }
+     }
 
+    Py_INCREF(Py_None);
     return Py_BuildValue("O", result);
 }
 
@@ -95,5 +100,5 @@ PyMODINIT_FUNC PyInit_upath(void)
     PathError = PyErr_NewException("upath.error", NULL, NULL);
     Py_INCREF(PathError);
     PyModule_AddObject(module, "error", PathError);
-    return m;
+    return module;
 }
